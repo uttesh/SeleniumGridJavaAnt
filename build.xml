@@ -1,0 +1,60 @@
+<project name="SeleniumGridJavaAnt" default="runTestNG" basedir="." >
+	<taskdef name="testng" classname="org.testng.TestNGAntTask">
+		<classpath>
+			<pathelement location="ext-lib/testng-6.8.5.jar"/>
+		</classpath>
+	</taskdef>
+
+	<property name="test.dir" location="src" />
+	<property name="lib.dir" location="ext-lib" />
+	<property name="classes.dir" location="classes" />
+	<property name="app-props-file" location="${test.dir}/main/resources/simple.properties" />
+	<property name="testng.output.dir" value="automation_report"/>
+	
+	
+	<path id="classpath.test">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<pathelement location="${app-props-file}" />
+		<pathelement location="${classes.dir}" />
+	</path>
+
+	<!-- ==================== Clean Target ==================== -->
+	<target name="clean" description="Delete build and packaging directories">
+		<delete includeEmptyDirs="true" failonerror="false">
+			<fileset dir="${testng.output.dir}"/>
+		</delete>
+
+		<delete dir="${classes.dir}" />
+	</target>
+
+	<!-- ==================== Compile Target ==================== -->
+	<target name="compile-test" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${test.dir}" destdir="${classes.dir}" verbose="false" includeantruntime="true">
+			<classpath refid="classpath.test" />
+		</javac>
+	</target>
+
+
+	<!-- ==================== runTestNG Target ==================== -->
+	<target name="runTestNG" depends="compile-test">
+		<mkdir dir="${testng.output.dir}" />
+
+		<copy todir="${classes.dir}">
+			<fileset dir="${test.dir}/main/resources">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+
+		<testng outputdir="${testng.output.dir}" classpathref="classpath.test" useDefaultListeners="false" listeners="org.uncommons.reportng.HTMLReporter" haltonfailure="false">
+			<xmlfileset dir="." includes="simplesuite.xml" />
+			<!--classfileset dir="${classes.dir}" includes="**/DealScanSearchTest.class" /-->
+			<sysproperty key="org.uncommons.reportng.escape-output" value="true" />
+		</testng>
+	</target>
+	
+	
+
+</project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="1" name="DealScan Automation" parallel="tests">
+
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+    </listeners>
+
+    <test name="Windows+IE11 Test">
+        <parameters>
+            <parameter name="platform" value="Windows" />
+            <parameter name="browser" value="Internet Explorer" />
+            <parameter name="version" value="11" />
+            <parameter name="url" value="http://localhost:4444/wd/hub"/>
+        </parameters>
+        <classes>
+            <class name="test.java.com.uttesh.selenium.Tests.UtteshJavaBlogsTest" />
+        </classes>
+    </test>
+    
+     <test name="Windows+FIREFOX+25.0.1 Test">
+        <parameters>
+            <parameter name="platform" value="Windows" />
+            <parameter name="browser" value="firefox" />
+            <parameter name="version" value="25.0.1" />
+            <parameter name="url" value="http://localhost:4444/wd/hub"/>
+        </parameters>
+        <classes>
+            <class name="test.java.com.uttesh.selenium.Tests.UtteshJavaBlogsTest" />
+        </classes>
+    </test>
+
+	<!--test name="AmazonTest" preserve-order="true">
+		<classes>
+			<class name="test.java.com.uttesh.selenium.Tests.AmazonNigelSlaterTest" />
+			<class name="test.java.com.uttesh.selenium.Tests.AmazonTest" />
+		</classes>
+	</test--> 	
+
+</suite> 
